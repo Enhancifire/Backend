@@ -20,7 +20,7 @@ def PostList(self):
 def AddPost(self, postTitle, userId, postBody):
     return "Created Successfully"
 
-def ReturnPost(self, postId):
+def ReturnPost(postId):
     return {
             "postTitle": "postTitle",
             "postId": "postId",

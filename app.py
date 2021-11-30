@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse, abort
+import sql_connector as sqlCon
 
 app = Flask(__name__)
 api = Api(app)
@@ -28,12 +29,14 @@ class PostModel():
         self.postBody = postBody
         self.dateCreated = dateCreated
 
-
 users = [
 UserModel(0, "Faiz", "fs144rules@gmail.com")
         ]
 
 posts = [
+PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
+PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
+PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
 PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021")
         ]
 # Sign in
@@ -71,14 +74,21 @@ post_args.add_argument('postTitle', type=str, required=True)
 
 class Post(Resource):
     def get(self):
-        pass
+        postlist = sqlCon.PostList()
+        return postlist, 200
 
     def put(self):
-        pass
+        return ""
+
+class IndividualPost(Resource):
+    def get(self, postId):
+        return sqlCon.ReturnPost(postId=postId)
+
 
 api.add_resource(Login, "/login")
 api.add_resource(Signup, "/signup")
 api.add_resource(Post, "/post")
+api.add_resource(IndividualPost, "/post/<int:postId>")
 if __name__ == "__main__":
     app.run(debug=True)
 
