@@ -1,33 +1,11 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse, abort
 import sql_connector as sqlCon
+from models import UserModel, PostModel
 
 app = Flask(__name__)
 api = Api(app)
 
-# User Class
-class UserModel():
-    def __init__(self, userId, username,  email):
-        self.userId = userId
-        self.username = username
-        self.email = email
-
-    def returnUsername(self):
-        return self.username
-
-    def returnEmail(self):
-        return self.email
-
-    def returnUserId(self):
-        return self.userId
-
-class PostModel():
-    def __init__(self,userId, postID, postTitle, postBody, dateCreated):
-        self.userId = userId
-        self.postId = postID
-        self.postTitle = postTitle
-        self.postBody = postBody
-        self.dateCreated = dateCreated
 
 users = [
 UserModel(0, "Faiz", "fs144rules@gmail.com")
@@ -62,7 +40,7 @@ signup_args.add_argument('username', type=str, required=True)
 class Signup (Resource):
     def put(self):
         signupargs = signup_args.parse_args()
-        user, userId = sqlCon.SignUp(email=signupargs.email, password=signupargs.password, username=signupargs.username)
+        userId = sqlCon.SignUp(email=signupargs.email, password=signupargs.password, username=signupargs.username)
         return {'userId': userId}, 201
 
 # Post
@@ -82,7 +60,6 @@ class AddPost(Resource):
     def put(self):
         postargs = post_args.parse_args()
         return sqlCon.AddPost(postTitle=postargs.postTitle, userId=postargs.userId, postBody=postargs.postBody)
-
 
 
 class IndividualPost(Resource):
