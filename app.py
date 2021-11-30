@@ -43,11 +43,15 @@ PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit ame
 login_args = reqparse.RequestParser()
 login_args.add_argument('email', type=str, required=True)
 login_args.add_argument('password', type=str, required=True)
+login_args.add_argument('withEmail', type=bool, required=True)
 
 class Login (Resource):
     def get(self):
-        args = login_args.parse_args()
-        return "", 200
+        loginargs = login_args.parse_args()
+        if loginargs.withEmail == True:
+            return sqlCon.LoginWithEmail(loginargs.email, loginargs.password), 200
+        else:
+            return sqlCon.LoginWithUsername(loginargs.email, loginargs.password), 200
 
 # Sign up
 signup_args = reqparse.RequestParser()
@@ -56,39 +60,45 @@ signup_args.add_argument('password', type=str, required=True)
 signup_args.add_argument('username', type=str, required=True)
 
 class Signup (Resource):
-    def get(self):
-        return {"username": users[0].username, "email": users[0].email}, 200
-
     def put(self):
-        args = signup_args.parse_args()
-        users.append(UserModel(len(users)+1, args.username,args.email))
-
-        return "Successfull", 201
+        signupargs = signup_args.parse_args()
+        user, userId = sqlCon.SignUp(email=signupargs.email, password=signupargs.password, username=signupargs.username)
+        return {'userId': userId}, 201
 
 # Post
 
 post_args = reqparse.RequestParser()
 post_args.add_argument('postTitle', type=str, required=True)
 post_args.add_argument('postBody', type=str, required=True)
-post_args.add_argument('postTitle', type=str, required=True)
+post_args.add_argument('userId', type=int, required=True)
 
 class Post(Resource):
     def get(self):
         postlist = sqlCon.PostList()
         return postlist, 200
 
+
+class AddPost(Resource):
     def put(self):
-        return ""
+        postargs = post_args.parse_args()
+        return sqlCon.AddPost(postTitle=postargs.postTitle, userId=postargs.userId, postBody=postargs.postBody)
+
+
 
 class IndividualPost(Resource):
     def get(self, postId):
         return sqlCon.ReturnPost(postId=postId)
+
+    def delete(self, postId):
+        sqlCon.DeletePost(postId=postId)
+        return "", 204
 
 
 api.add_resource(Login, "/login")
 api.add_resource(Signup, "/signup")
 api.add_resource(Post, "/post")
 api.add_resource(IndividualPost, "/post/<int:postId>")
+api.add_resource(AddPost, "/post/add")
 if __name__ == "__main__":
     app.run(debug=True)
 

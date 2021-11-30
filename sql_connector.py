@@ -1,15 +1,15 @@
-def SignUp(self, email, password, username):
+def SignUp(email, password, username):
     # if user exists, return error
     if 1 == 1:
-      return "user exists"
+      return "user exists", 'userId'
 
-def LoginWithEmail(self, email, password):
+def LoginWithEmail(email, password):
     return "UserID"
 
-def LoginWithUsername(self, username, password):
+def LoginWithUsername(username, password):
     return "UserID"
 
-def PostList(self):
+def PostList():
     return [{
             "postTitle": "postTitle",
             "postId": "postId",
@@ -17,7 +17,7 @@ def PostList(self):
             "dateCreated": "dateCreated"
             }]
 
-def AddPost(self, postTitle, userId, postBody):
+def AddPost(postTitle, userId, postBody):
     return "Created Successfully"
 
 def ReturnPost(postId):
@@ -28,8 +28,8 @@ def ReturnPost(postId):
             "dateCreated": "dateCreated"
             }
 
-def DeletePost(self, postId):
+def DeletePost(postId):
     return "Deleted Successfully"
 
-def ModifyPost(self, postId, postBody, postTitle):
+def ModifyPost(postId, postBody, postTitle):
     return "Post Modified Successfully"
