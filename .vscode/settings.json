@@ -1,0 +1,18 @@
+{
+    "python.pythonPath": "C:\\Users\\Faiz\\AppData\\Local\\Microsoft\\WindowsApps\\python3.7.exe",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MySQL",
+            "name": "localhost",
+            "database": "blog",
+            "username": "root"
+        }
+    ]
+}

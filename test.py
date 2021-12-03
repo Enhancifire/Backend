@@ -2,10 +2,13 @@ import requests
 import json
 import sql_connector as sql
 
-# BASE = "http://localhost:5000/"
+BASE = "http://localhost:5000/"
 
-# response = requests.get(BASE + '/post/1')
-# print(response.json())
+data = {
+    'email': 'fsaiyad990@gmail.com', 
+    'password': 'fs144', 
+    'username': 'ReaperFS'
+}
 
-postList = sql.PostList()
-print(postList)
+response = requests.put(BASE + '/signup', data=data)
+print(response)

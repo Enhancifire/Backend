@@ -4,6 +4,7 @@ import re
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
 
 
+
 def check(email):
 
     if(re.search(regex, email)):
@@ -13,34 +14,39 @@ def check(email):
 
 
 con = c.connect(host="localhost", user="root", port="3306",
-                password="root@123", database="BLOG")
+                password="fs144", database="BLOG")
 
 cur = con.cursor()
 
 
 def SignUp(email, username, password):
+    print(username)
     me = 0
     mee = 0
     x = check(email)
     if(x):
         cur.execute("select email from users")
-        username = cur.fetchall()
-        for email in username:
+        usernames = cur.fetchall()
+        for email in usernames:
             me = 0
     else:
             me = 1
 
     if(x == False):
         cur.execute("select username from users")
-        username = cur.fetchall()
-        for email in username:
+        usernames = cur.fetchall()
+        for email in usernames:
             mee = 0
     else:
             mee = 1
 
+    
     if (me == 0 & mee == 0):
-        cur.execute("insert into users (email, username, password) values (?,?,?)",
-                    email, username, password)
+        mystring = """insert into users (email, username, password) values (%s,%s,%s)"""
+        cur.execute(mystring,(str(email), username, str(password)))
+        con.commit()
+    
+        
     else:
         if(me == 0):
             return "email already exists"
@@ -53,22 +59,22 @@ def Login(email, passw):
     x = check(email)
     if(x):
         cur.execute("select email from users")
-        username = cur.fetchall()
-        for email in username:
+        usernames = cur.fetchall()
+        for email in usernames:
             em = 1
         else:
             em = 0
     else:
         cur.execute("select username from users")
-        username = cur.fetchall()
-        for email in username:
+        usernames = cur.fetchall()
+        for email in usernames:
             em = 1
         else:
             em = 0
     if(em == 1):
         cur.execute("select password from users where username=?", email)
-        password = cur.fetchall()
-        if(passw in password):
+        passwords = cur.fetchall()
+        if(passw in passwords):
             y = 1
             return "login successful", 200
         else:
@@ -97,7 +103,7 @@ def AddPost(username, postTitle, postBody):
         return 201
 
 def ReturnPost(postId):
-        cur.execute("select * from posts where postId=?", postId)
+        cur.execute(f"select * from posts where postId={postId}")
         s_post_data = cur.fetchall()
         for i in s_post_data:
             return {
