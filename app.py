@@ -48,7 +48,7 @@ class Signup (Resource):
 post_args = reqparse.RequestParser()
 post_args.add_argument('postTitle', type=str, required=True)
 post_args.add_argument('postBody', type=str, required=True)
-post_args.add_argument('userId', type=int, required=True)
+post_args.add_argument('username', type=int, required=True)
 
 class Post(Resource):
     def get(self):
@@ -59,7 +59,12 @@ class Post(Resource):
 class AddPost(Resource):
     def put(self):
         postargs = post_args.parse_args()
-        return sqlCon.AddPost(postTitle=postargs.postTitle, userId=postargs.userId, postBody=postargs.postBody)
+        
+        return sqlCon.AddPost(postTitle=postargs.postTitle, username=postargs.username, postBody=postargs.postBody)
+
+individualpost_args = reqparse.RequestParser()
+individualpost_args.add_argument('postTitle', type =str, required=True)
+individualpost_args.add_argument('postBody', type =str, required=True)
 
 
 class IndividualPost(Resource):
@@ -68,7 +73,12 @@ class IndividualPost(Resource):
 
     def delete(self, postId):
         sqlCon.DeletePost(postId=postId)
-        return "", 204
+        return sqlCon.DeletePost(postId)
+
+    def update(self, postId):
+        updateArgs = individualpost_args.parse_args()
+        return sqlCon.ModifyPost(postId=postId, postTitle=updateArgs.postTitle, postBody=updateArgs.postBody)
+
 
 
 api.add_resource(Login, "/login")

@@ -19,21 +19,25 @@ cur = con.cursor()
 
 
 def SignUp(email, username, password):
+    me = 0
+    mee = 0
     x = check(email)
     if(x):
         cur.execute("select email from users")
         username = cur.fetchall()
         for email in username:
             me = 0
-        else:
+    else:
             me = 1
+
     if(x == False):
         cur.execute("select username from users")
         username = cur.fetchall()
         for email in username:
             mee = 0
-        else:
+    else:
             mee = 1
+
     if (me == 0 & mee == 0):
         cur.execute("insert into users (email, username, password) values (?,?,?)",
                     email, username, password)
@@ -66,32 +70,33 @@ def Login(email, passw):
         password = cur.fetchall()
         if(passw in password):
             y = 1
-            return "login successful"
+            return "login successful", 200
         else:
             y = 0
-            return "login unsuccessful"
+            return "login unsuccessful", 400
 
     else:
-        return "Username/Email Doesn't exist"
+        return "Username/Email Doesn't exist", 404
 
-    def PostList():
+def PostList():
         cur.execute("select * from posts")
         post_data = cur.fetchall()
+        postList = []
         for i in post_data:
-            return [{
+            postList.append({
                     "postId": i[0],
                     "username": i[1],
                     "postTitle": i[2],
                     "postBody": i[3],
                     "dateCreated": i[4]
-                    }]
+                    })
+        return postList
 
-    def AddPost(username, postTitle, postBody):
-        cur.execute("insert into posts (username, postTitle, postbody) values (?,?,?)",
-                    username, postTitle, postbody)
-        return "Created Successfully"
+def AddPost(username, postTitle, postBody):
+        cur.execute("insert into posts (username, postTitle, postbody) values (?,?,?)",username, postTitle, postBody)
+        return 201
 
-    def ReturnPost(postId):
+def ReturnPost(postId):
         cur.execute("select * from posts where postId=?", postId)
         s_post_data = cur.fetchall()
         for i in s_post_data:
@@ -102,11 +107,12 @@ def Login(email, passw):
                 "dateCreated": i[3]
             }
 
-    def DeletePost(postId):
-        cur.execute("delete from posts where postId=?", postId)
-        return "Deleted Successfully"
 
-    def ModifyPost(postId, postBody, postTitle):
+def DeletePost(postId):
+        cur.execute("delete from posts where postId=?", postId)
+        return 201
+
+def ModifyPost(postId, postBody, postTitle):
         cur.execute("update posts set postBody = ?, postTitle = ? where postId=?",
                     postBody, postTitle, postId)
-        return "Post Modified Successfully"
+        return 200
