@@ -154,3 +154,6 @@ def ModifyPost(postId, postBody, postTitle):
                 (postBody, postTitle, postId,))
     con.commit()
     return 200
+cur.close()
+con.close()
+
