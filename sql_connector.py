@@ -19,39 +19,45 @@ cur = con.cursor()
 
 
 def SignUp(email, username, password):             #
-    print(username)
-    me = 0
-    mee = 0
+    me = None
+    mee = None
     x = check(email)
-    if(x):
+    if(x == True):
         cur.execute("select email from users")
-        usernames = cur.fetchall()
-        for email in usernames:
-            me = 0
+        emails = cur.fetchall()
+        for i in range(0, len(emails)):
+            if (email == emails[i][0]):
+                me = 0
+                break
+        else:
+            me = 1
     else:
-        me = 1
-
-    if(x == False):
-        cur.execute("select username from users")
-        usernames = cur.fetchall()
-        for email in usernames:
+        return "Email is not a valid email"
+    cur.execute("select username from users")
+    usernames = cur.fetchall()
+    for i in range(0, len(usernames)):
+        if (username == usernames[i][0]):
             mee = 0
+            break
     else:
         mee = 1
-
-    if (me == 0 & mee == 0):
+    if (me == 1 & mee == 1):
         mystring = """insert into users (email, username, password) values (%s,%s,%s)"""
-        cur.execute(mystring, (str(email), username, str(password)))
+        cur.execute(mystring, ((email), username, str(password)))
         con.commit()
 
     else:
-        if(me == 0):
+        if me == 0 and mee == 0:
+            return "Email and username already exists"
+
+        elif(me == 0):
             return "email already exists"
-        else:
+        elif(mee == 0):
             return "username already exists"
 
 
-def Login(email, passw):                                #
+def Login(email, passw):
+    em, emm = 0, 0                               #
     x = check(email)
     # checking email
     if(x == True):
@@ -70,22 +76,31 @@ def Login(email, passw):                                #
 
         for i in range(0, len(usernames)):
             if (email == usernames[i][0]):
-                em = 1
+                emm = 1
                 break
         else:
-            em = 0
+            emm = 0
     if(em == 1):
         passww = "select password from users where email=%s"
         cur.execute(passww, (email,))
         passwords = cur.fetchall()
-        print(passwords, passw)
+        if(passw == passwords[0][0]):
+            y = 1
+            return "login successful", 200
+        else:
+            y = 0
+            return "Email and password doesnt match ", 400
+    elif(emm == 1):
+        passww = "select password from users where username=%s"
+        cur.execute(passww, (email,))
+        passwords = cur.fetchall()
 
         if(passw == passwords[0][0]):
             y = 1
             return "login successful", 200
         else:
             y = 0
-            return "login unsuccessful", 400
+            return "Username and password doesn't match", 400
 
     else:
         return "Username/Email Doesn't exist", 404

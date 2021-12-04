@@ -1,4 +1,4 @@
 import sql_connector as sql
 
-response = sql.Login("Himanshu", "password")
+response = sql.SignUp("hzxbhim@gmail.com", "Himcanshu", "password")
 print(response)
