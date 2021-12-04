@@ -1,4 +1,4 @@
 import sql_connector as sql
 
-response = sql.ReturnPost(3)
+response = sql.Login("Himanshu", "password")
 print(response)
