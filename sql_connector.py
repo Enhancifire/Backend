@@ -86,6 +86,10 @@ def Login(email, passw):
         passwords = cur.fetchall()
         if(passw == passwords[0][0]):
             y = 1
+            thisUsername = "select username from users where email=%s"
+            cur.execute(thisUsername, (passw,))
+            usernames = cur.fetchall()
+            print(usernames)
             return "login successful", 200
         else:
             y = 0
