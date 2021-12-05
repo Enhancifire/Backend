@@ -18,101 +18,152 @@ con = c.connect(host="localhost", user="root", port="3306",
 cur = con.cursor()
 
 
-def SignUp(email, username, password):
-    me = 0
-    mee = 0
+def SignUp(email, username, password):             #
+    me = None
+    mee = None
     x = check(email)
-    if(x):
+    if(x == True):
         cur.execute("select email from users")
-        username = cur.fetchall()
-        for email in username:
-            me = 0
-    else:
-            me = 1
-
-    if(x == False):
-        cur.execute("select username from users")
-        username = cur.fetchall()
-        for email in username:
-            mee = 0
-    else:
-            mee = 1
-
-    if (me == 0 & mee == 0):
-        cur.execute("insert into users (email, username, password) values (?,?,?)",
-                    email, username, password)
-    else:
-        if(me == 0):
-            return "email already exists"
+        emails = cur.fetchall()
+        for i in range(0, len(emails)):
+            if (email == emails[i][0]):
+                me = 0
+                break
         else:
+            me = 1
+    else:
+        return "Email is not a valid email"
+
+    cur.execute("select username from users")
+    usernames = cur.fetchall()
+    for i in range(0, len(usernames)):
+        if (username == usernames[i][0]):
+            mee = 0
+            break
+    else:
+        mee = 1
+    if (me == 1 & mee == 1):
+        mystring = """insert into users (email, username, password) values (%s,%s,%s)"""
+        cur.execute(mystring, ((email), username, str(password)))
+        con.commit()
+
+    else:
+        if me == 0 and mee == 0:
+            return "Email and username already exists"
+
+        elif(me == 0):
+            return "email already exists"
+        elif(mee == 0):
             return "username already exists"
 
 
 def Login(email, passw):
-
+    em, emm = 0, 0                               #
     x = check(email)
-    if(x):
+    # checking email
+    if(x == True):
         cur.execute("select email from users")
-        username = cur.fetchall()
-        for email in username:
-            em = 1
+        emails = cur.fetchall()
+        for i in range(0, len(emails)):
+            if (email == emails[i][0]):
+                em = 1
+                break
         else:
             em = 0
+
     else:
+        # checking username
         cur.execute("select username from users")
-        username = cur.fetchall()
-        for email in username:
-            em = 1
+        usernames = cur.fetchall()
+
+        for i in range(0, len(usernames)):
+            if (email == usernames[i][0]):
+                emm = 1
+                break
+
         else:
-            em = 0
+            emm = 0
+
     if(em == 1):
-        cur.execute("select password from users where username=?", email)
-        password = cur.fetchall()
-        if(passw in password):
+        passww = "select password from users where email=%s"
+        cur.execute(passww, (email,))
+        passwords = cur.fetchall()
+
+        if(passw == passwords[0][0]):
             y = 1
-            return "login successful", 200
+            thisUsername = "select username from users where email=%s"
+            cur.execute(thisUsername, (email,))
+            usernames = cur.fetchall()
+            print(usernames[0][0])
+            return {'username': usernames[0][0]}, 200
+
         else:
             y = 0
-            return "login unsuccessful", 400
+            return "Email and password doesnt match ", 400
+
+    elif(emm == 1):
+        passww = "select password from users where username=%s"
+        cur.execute(passww, (email,))
+        passwords = cur.fetchall()
+
+        if(passw == passwords[0][0]):
+            y = 1
+            return {'username': email}, 200
+
+        else:
+            y = 0
+            return "Username and password doesn't match", 400
 
     else:
         return "Username/Email Doesn't exist", 404
 
-def PostList():
-        cur.execute("select * from posts")
-        post_data = cur.fetchall()
-        postList = []
-        for i in post_data:
-            postList.append({
-                    "postId": i[0],
-                    "username": i[1],
-                    "postTitle": i[2],
-                    "postBody": i[3],
-                    "dateCreated": i[4]
-                    })
-        return postList
+
+def PostList():                                      #
+    cur.execute("select * from posts")
+    post_data = cur.fetchall()
+    postList = []
+    for i in post_data:
+        postList.append({
+            "postId": i[0],
+            "username": i[1],
+            "postTitle": i[2],
+            "postBody": i[3],
+            "dateCreated": i[4]
+        })
+    return postList
+
 
 def AddPost(username, postTitle, postBody):
-        cur.execute("insert into posts (username, postTitle, postbody) values (?,?,?)",username, postTitle, postBody)
-        return 201
+    str = "insert into posts (username, postTitle, postbody) values (%s,%s,%s)"
+    cur.execute(str, (username, postTitle, postBody))
+    con.commit()
+    return 201
+
 
 def ReturnPost(postId):
-        cur.execute("select * from posts where postId=?", postId)
-        s_post_data = cur.fetchall()
-        for i in s_post_data:
-            return {
-                "postTitle": i[0],
-                "postId": i[1],
-                "postBody":  i[2],
-                "dateCreated": i[3]
-            }
+    #
+    cur.execute("select * from posts")
+    cur.execute(f"select * from posts where postId={postId}")
+    s_post_data = cur.fetchall()
+    for i in s_post_data:
+        return {
+            "postTitle": i[0],
+            "postId": i[1],
+            "postBody":  i[2],
+            "dateCreated": i[3]
+        }
 
 
-def DeletePost(postId):
-        cur.execute("delete from posts where postId=?", postId)
-        return 201
+def DeletePost(postId):                            #
+    deleteque = "delete from posts where postId=%s"
+    cur.execute(deleteque, (postId,))
+    con.commit()
+    return 201
+
 
 def ModifyPost(postId, postBody, postTitle):
-        cur.execute("update posts set postBody = ?, postTitle = ? where postId=?",
-                    postBody, postTitle, postId)
-        return 200
+    cur.execute("update posts set postBody = %s, postTitle = %s where postId=%s",
+                (postBody, postTitle, postId,))
+    con.commit()
+    return 200
+

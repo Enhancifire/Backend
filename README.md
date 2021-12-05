@@ -1,13 +1,8 @@
-# Dependancies
+# Installation instructions
 
-- MySQL Connector for MySQL
+1. Install Python 3.7 or higher and ensure pip is installed
+2. Run
 
-    ``` shell
-    pip install mysql-connector-python
-    ```
-
-- Flask for API
-
-    ``` shell
-    pip install flask
-    ```
+```python
+pip install -r requirements.txt
+```
