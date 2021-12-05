@@ -1,0 +1,150 @@
+﻿Diagnose log at 2021-12-05T05:58:08Z
+
+Executable: /usr/local/share/gcm-core/git-credential-manager-core
+Version: 2.0.567+3047faf390
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Linux
+OSVersion: Linux pop-os 5.13.0-7620-generic #20~1634827117~21.04~874b071-Ubuntu SMP Fri Oct 29 15:06:55 UTC  x86_64 x86_64 x86_64 GNU/Linux
+Reading environment variables... OK
+ Variables:
+GIO_LAUNCHED_DESKTOP_FILE_PID=19900
+XDG_RUNTIME_DIR=/run/user/1000
+COLORTERM=truecolor
+MANAGERPID=3013
+SHLVL=1
+INVOCATION_ID=6d2d6ea84c9441d4ae5a1a6623255803
+GDMSESSION=pop
+GTK_IM_MODULE=ibus
+DISPLAY=:1
+SESSION_MANAGER=local/pop-os:@/tmp/.ICE-unix/3631,unix/pop-os:/tmp/.ICE-unix/3631
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+DESKTOP_SESSION=pop
+JOURNAL_STREAM=8:44845
+XDG_SESSION_TYPE=x11
+LOGNAME=reaperfs
+XMODIFIERS=@im=ibus
+QT_ACCESSIBILITY=1
+XDG_DATA_DIRS=/usr/share/pop:/home/reaperfs/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+XDG_CURRENT_DESKTOP=pop:GNOME
+ALACRITTY_LOG=/tmp/Alacritty-19900.log
+MANPAGER=sh -c 'col -bx | bat -l man -p'
+PATH=/home/reaperfs/.scripts:/home/reaperfs/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/reaperfs/.emacs.d/bin/:/home/reaperfs/Development/flutter/bin/:/home/reaperfs/.local/bin/:/home/reaperfs/Drives/Data/Applications/android-studio/bin/
+PWD=/home/reaperfs/Projects/Anonymous Blog/Backend
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+STARSHIP_SESSION_KEY=5817608947626971
+QT_IM_MODULE=ibus
+XDG_MENU_PREFIX=gnome-
+GNOME_SHELL_SESSION_MODE=pop
+LIBVIRT_DEFAULT_URI=qemu:///system
+XDG_CONFIG_DIRS=/etc/xdg/xdg-pop:/etc/xdg
+WINDOWPATH=2
+WINDOWID=50331652
+GTK_MODULES=gail:atk-bridge:appmenu-gtk-module
+CHROME_EXECUTABLE=/usr/bin/brave-browser
+SSH_AGENT_LAUNCHER=gnome-keyring
+SHELL=/usr/bin/fish
+LANG=en_US.UTF-8
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+TERM=xterm-256color
+STARSHIP_SHELL=fish
+USERNAME=reaperfs
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+XDG_SESSION_CLASS=user
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+HOME=/home/reaperfs
+XDG_SESSION_DESKTOP=pop
+USER=reaperfs
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is '/tmp/'...
+Checking basic file I/O...
+Writing to temporary file '/tmp/43e7430fa5a3848e52cc0057'... OK
+Reading from temporary file '/tmp/43e7430fa5a3848e52cc0057'... OK
+Deleting temporary file '/tmp/43e7430fa5a3848e52cc0057'... OK
+Testing IFileSystem instance...
+UserHomePath: /home/reaperfs
+UserDataDirectoryPath: /home/reaperfs/.gcm
+GetCurrentDirectory(): /home/reaperfs/Drives/Data/Projects/Anonymous Blog/Backend
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking basic networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com... OK
+Sending HEAD request to https://example.com... OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:42583/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+Testing with IHttpClientFactory created HTTP client...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com... OK
+Sending HEAD request to https://example.com... OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:41549/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.30.2'
+Locating current repository... OK
+Git repository at '/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend'
+Listing all Git configuration... OK
+Git configuration:
+file:/home/reaperfs/.gitconfig	credential.helper=cache
+file:/home/reaperfs/.gitconfig	credential.helper=
+file:/home/reaperfs/.gitconfig	credential.helper=/usr/local/share/gcm-core/git-credential-manager-core
+file:/home/reaperfs/.gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:/home/reaperfs/.gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:/home/reaperfs/.gitconfig	filter.lfs.process=git-lfs filter-process
+file:/home/reaperfs/.gitconfig	filter.lfs.required=true
+file:/home/reaperfs/.gitconfig	user.name=Faiz Saiyad
+file:/home/reaperfs/.gitconfig	user.email=81345756+Enhancifire@users.noreply.github.com
+file:/home/reaperfs/.gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	core.repositoryformatversion=0
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	core.filemode=false
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	core.bare=false
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	core.logallrefupdates=true
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	core.worktree=../../../Backend
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	remote.origin.url=https://github.com/Enhancifire/Backend.git
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.master.remote=origin
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.master.merge=refs/heads/master
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.Backend.remote=origin
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.Backend.merge=refs/heads/Backend
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.mysqltesting.remote=origin
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	branch.mysqltesting.merge=refs/heads/mysqltesting
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	pull.ff=only
+file:/home/reaperfs/Drives/Data/Projects/Anonymous Blog/.git/modules/Backend/config	credential.credentialstore=secretservice
+
+
