@@ -6,30 +6,15 @@ from models import UserModel, PostModel
 app = Flask(__name__)
 api = Api(app)
 
-
-users = [
-UserModel(0, "Faiz", "fs144rules@gmail.com")
-        ]
-
-posts = [
-PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
-PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
-PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021"),
-PostModel(123, users[0].returnUserId(), "Test Title", "Lorem ipsum dolor sit amet", "30/11/2021")
-        ]
 # Sign in
 login_args = reqparse.RequestParser()
 login_args.add_argument('email', type=str, required=True)
 login_args.add_argument('password', type=str, required=True)
-login_args.add_argument('withEmail', type=bool, required=True)
 
 class Login (Resource):
     def get(self):
         loginargs = login_args.parse_args()
-        if loginargs.withEmail == True:
-            return sqlCon.LoginWithEmail(loginargs.email, loginargs.password), 200
-        else:
-            return sqlCon.LoginWithUsername(loginargs.email, loginargs.password), 200
+        return sqlCon.Login(loginargs.email, loginargs.password)
 
 # Sign up
 signup_args = reqparse.RequestParser()

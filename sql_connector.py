@@ -33,6 +33,7 @@ def SignUp(email, username, password):             #
             me = 1
     else:
         return "Email is not a valid email"
+
     cur.execute("select username from users")
     usernames = cur.fetchall()
     for i in range(0, len(usernames)):
@@ -69,6 +70,7 @@ def Login(email, passw):
                 break
         else:
             em = 0
+
     else:
         # checking username
         cur.execute("select username from users")
@@ -78,22 +80,27 @@ def Login(email, passw):
             if (email == usernames[i][0]):
                 emm = 1
                 break
+
         else:
             emm = 0
+
     if(em == 1):
         passww = "select password from users where email=%s"
         cur.execute(passww, (email,))
         passwords = cur.fetchall()
+
         if(passw == passwords[0][0]):
             y = 1
             thisUsername = "select username from users where email=%s"
-            cur.execute(thisUsername, (passw,))
+            cur.execute(thisUsername, (email,))
             usernames = cur.fetchall()
-            print(usernames)
-            return "login successful", 200
+            print(usernames[0][0])
+            return {'username': usernames[0][0]}, 200
+
         else:
             y = 0
             return "Email and password doesnt match ", 400
+
     elif(emm == 1):
         passww = "select password from users where username=%s"
         cur.execute(passww, (email,))
@@ -101,7 +108,8 @@ def Login(email, passw):
 
         if(passw == passwords[0][0]):
             y = 1
-            return "login successful", 200
+            return {'username': email}, 200
+
         else:
             y = 0
             return "Username and password doesn't match", 400
@@ -158,6 +166,4 @@ def ModifyPost(postId, postBody, postTitle):
                 (postBody, postTitle, postId,))
     con.commit()
     return 200
-cur.close()
-con.close()
 
