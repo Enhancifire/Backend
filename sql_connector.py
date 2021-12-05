@@ -13,7 +13,7 @@ def check(email):
 
 
 con = c.connect(host="localhost", user="root", port="3306",
-                password="root@123", database="BLOG")
+                password="@mysql1", database="BLOG")
 
 cur = con.cursor()
 
@@ -58,8 +58,8 @@ def SignUp(email, username, password):             #
 
 
 def Login(email, passw):
-    em, emm = 0, 0                               #
-    x = check(email)
+    em, emm = 0, 1                               #
+    x = False
     # checking email
     if(x == True):
         cur.execute("select email from users")
@@ -128,7 +128,8 @@ def PostList():                                      #
             "username": i[1],
             "postTitle": i[2],
             "postBody": i[3],
-            "dateCreated": i[4]
+            "dateCreated": str(i[4])
+           
         })
     return postList
 
@@ -142,7 +143,7 @@ def AddPost(username, postTitle, postBody):
 
 def ReturnPost(postId):
     #
-    cur.execute("select * from posts")
+    # cur.execute("select * from posts")
     cur.execute(f"select * from posts where postId={postId}")
     s_post_data = cur.fetchall()
     for i in s_post_data:
@@ -150,7 +151,7 @@ def ReturnPost(postId):
             "postTitle": i[0],
             "postId": i[1],
             "postBody":  i[2],
-            "dateCreated": i[3]
+            "dateCreated": str(i[4])
         }
 
 

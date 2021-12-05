@@ -8,8 +8,8 @@ api = Api(app)
 
 # Sign in
 login_args = reqparse.RequestParser()
-login_args.add_argument('email', type=str, required=True)
-login_args.add_argument('password', type=str, required=True)
+login_args.add_argument('email', type=str)
+login_args.add_argument('password', type=str)
 
 class Login (Resource):
     def get(self):
@@ -35,7 +35,7 @@ class Signup (Resource):
 post_args = reqparse.RequestParser()
 post_args.add_argument('postTitle', type=str, required=True)
 post_args.add_argument('postBody', type=str, required=True)
-post_args.add_argument('username', type=int, required=True)
+post_args.add_argument('username', type=str, required=True)
 
 class Post(Resource):
     def get(self):
@@ -62,7 +62,7 @@ class IndividualPost(Resource):
         sqlCon.DeletePost(postId=postId)
         return sqlCon.DeletePost(postId)
 
-    def update(self, postId):
+    def put(self, postId):
         updateArgs = individualpost_args.parse_args()
         return sqlCon.ModifyPost(postId=postId, postTitle=updateArgs.postTitle, postBody=updateArgs.postBody)
 

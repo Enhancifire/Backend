@@ -6,9 +6,9 @@ BASE = "http://localhost:5000/"
 
 data = {
     'email': 'fsaiyad990@gmail.com', 
-    'password': 'fs144', 
-    'username': 'ReaperFS'
+    'password': 'fs144'
+    
 }
 
-response = requests.put(BASE + '/signup', data=data)
+response = requests.put(BASE + '/login', data=data)
 print(response)
