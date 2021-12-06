@@ -1,10 +1,10 @@
-from flask import Flask, request
+from flask import Flask, jsonify
 from flask_restful import Api, Resource, reqparse, abort
 import sql_connector as sqlCon
-from models import UserModel, PostModel
+from flask_cors import CORS
 
 app = Flask(__name__)
-api = Api(app)
+CORS = Api(app)
 
 # Sign in
 login_args = reqparse.RequestParser()
@@ -23,12 +23,16 @@ signup_args.add_argument('password', type=str, required=True)
 signup_args.add_argument('username', type=str, required=True)
 
 class Signup (Resource):
+    
     def post(self):
         signupargs = signup_args.parse_args()
         userId = sqlCon.SignUp(email=signupargs.email, 
                                 password=signupargs.password, 
                                 username=signupargs.username)
-        return {'userId': userId}, 201
+        data = {'userId': userId}
+        
+
+        return data, 201
 
 # Post
 
@@ -56,23 +60,26 @@ individualpost_args.add_argument('postBody', type =str, required=True)
 
 class IndividualPost(Resource):
     def get(self, postId):
-        return sqlCon.ReturnPost(postId=postId)
+        data = sqlCon.ReturnPost(postId=postId)
+        response = jsonify(data)
+        response.headers.add('Access-Control-Allow-Origin', "*")
+        return response
 
     def delete(self, postId):
         sqlCon.DeletePost(postId=postId)
         return sqlCon.DeletePost(postId)
 
-    def put(self, postId):
+    def post(self, postId):
         updateArgs = individualpost_args.parse_args()
         return sqlCon.ModifyPost(postId=postId, postTitle=updateArgs.postTitle, postBody=updateArgs.postBody)
 
 
 
-api.add_resource(Login, "/login")
-api.add_resource(Signup, "/signup")
-api.add_resource(Post, "/post")
-api.add_resource(IndividualPost, "/post/<int:postId>")
-api.add_resource(AddPost, "/post/add")
+CORS.add_resource(Login, "/login")
+CORS.add_resource(Signup, "/signup")
+CORS.add_resource(Post, "/post")
+CORS.add_resource(IndividualPost, "/post/<int:postId>")
+CORS.add_resource(AddPost, "/post/add")
 if __name__ == "__main__":
     app.run(debug=True)
 

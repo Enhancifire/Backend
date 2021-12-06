@@ -3,4 +3,4 @@ flask_restful
 requests
 mysql-connector-python
 pynvim
-
+flask-cors
