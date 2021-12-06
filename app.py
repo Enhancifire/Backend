@@ -23,7 +23,7 @@ signup_args.add_argument('password', type=str, required=True)
 signup_args.add_argument('username', type=str, required=True)
 
 class Signup (Resource):
-    def put(self):
+    def post(self):
         signupargs = signup_args.parse_args()
         userId = sqlCon.SignUp(email=signupargs.email, 
                                 password=signupargs.password, 
